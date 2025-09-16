@@ -117,7 +117,7 @@ void main(){
                     if(index){
                         printf("\nElement '%d' found at position '%d'",data,index);
                     }else{
-                        printf("\nNo element found");
+                        printf("\nNo such element found");
                     }
                     break;
             case 0: printf("Exiting.......\n");
