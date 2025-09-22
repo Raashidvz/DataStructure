@@ -18,12 +18,11 @@ struct node* push(struct node *top, struct node *newnode){
 }
 
 struct node* pop(struct node *top){
-    struct node *temp;
     if(top==NULL){
         printf("\nStack underflow");
         return top;
     }else{
-        temp=(struct node*)malloc(sizeof(struct node));
+        struct node *temp;
         temp=top;
         top=top->next;
         free(temp);
