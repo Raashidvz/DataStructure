@@ -5,52 +5,75 @@ int arr[MAX_SIZE];
 int f=-1,r=-1;
 
 int isEmpty(){
-    if(f ==-1 && r == -1){
-        printf("UnderFLow\n");
+    if(f == -1 && r == -1 ){
+        // printf("UnderFLow\n");
         return 1;
-    }
-    if(f==r && f==-1){
-        printf("UnderFLow");
+    }else if((r+1)%MAX_SIZE == f){
+        // printf("UnderFLow\n");
         return 1;
+    }else{
+        return 0;
     }
+    
 }
 
 int isFull(){
-    if((r+1 % MAX_SIZE)==f){
+    if((r+1)%MAX_SIZE==f){
         printf("OverFlow");
         return 1;
+    }else{
+        return 0;
     }
+    
 }
 
 void enqueue(int data){
-    if(isFull()){
+    if(isFull()==1){
         return;
     }
     if(f==-1 && r==-1){
         f++;
         r++;
         arr[r]=data;
-        return;
     }else{
         r=(r+1)%MAX_SIZE;
         arr[r]=data;
+        
     }
 }
 
 
 void display(){
-    if(isEmpty()){
+    if(isEmpty()==1){
+        printf("\nQueue is Empty\n");
         return;
     }
     int i=f;
     do{
-        printf("%d\t",arr[f]);
-        i=(f+1)%MAX_SIZE;
+        printf("%d\t",arr[i]);
+        i=(i+1)%MAX_SIZE;
     }while(i!=((r+1)%MAX_SIZE));
 }
 
+int search(int key){
+    if(isEmpty()==1){
+        printf("\nQueue is Empty\n");
+        return 0;
+    }
+    int i=f,count=0;
+    do{
+        count+=1;
+        if(key == arr[i]){
+            return count;
+        }
+        i=(i+1)%MAX_SIZE;
+    }while(i!=((r+1)%MAX_SIZE));
+    return 0;
+}
+
 void dequeue(){
-    if(isEmpty()){
+    if(isEmpty()==1){
+        printf("Queue is Empty\n");
         return;
     }
     f=(f+1)%MAX_SIZE;
@@ -59,7 +82,7 @@ void dequeue(){
 void main(){
     int choice,data,found;
     do{
-        printf("\n1. Insert\n2. Remove\n3. Display\n0.Exit\nEnter your choice : ");
+        printf("\n1. Insert\n2. Remove\n3. Display\n4. Search\n0.Exit\nEnter your choice : ");
         scanf("%d",&choice);
         switch(choice){
             case 1: printf("\nEnter data : ");
@@ -73,15 +96,15 @@ void main(){
             case 3: printf("\nQueue elements are: ");
                     display();
                     break;
-            // case 4: printf("\nEnter element to search : ");
-            //         scanf("%d",&data);
-            //         found=search(data);
-            //         if(found){
-            //             printf("\nElement '%d' found at position '%d'",data,found);
-            //         }else{
-            //             printf("\nNo such element found");
-            //         }
-            //         break;
+            case 4: printf("\nEnter element to search : ");
+                    scanf("%d",&data);
+                    found=search(data);
+                    if(found){
+                        printf("\nElement '%d' found at position '%d'",data,found);
+                    }else{
+                        printf("\nNo such element found");
+                    }
+                    break;
             case 0: printf("Exiting.......\n");
                     break;
             default:printf("\nInvalid input , try again....");
