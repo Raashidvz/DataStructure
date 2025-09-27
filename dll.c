@@ -112,7 +112,7 @@ void insertAfterPosition(struct node **head){
     printf("\nEnter position to insert : ");
     scanf("%d",&pos);
     
-    newnode=createnewNode(num);
+    
     if(pos==1){
         insertAtBegin(head);
     }else if(pos==count+1){
@@ -123,6 +123,7 @@ void insertAfterPosition(struct node **head){
     }else{
         printf("\nEnter element to insert : ");
         scanf("%d",&num);
+        newnode=createnewNode(num);
         struct node *temp;
         temp=*head;
         while(i<pos){
