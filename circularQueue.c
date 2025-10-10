@@ -1,45 +1,47 @@
 #include <stdio.h>
-#define MAX_SIZE 10
+#define MAX_SIZE 5
 
 int arr[MAX_SIZE];
 int f=-1,r=-1;
 
 int isEmpty(){
-    if(f == -1 && r == -1 ){
-        // printf("UnderFLow\n");
-        return 1;
-    }else if((r+1)%MAX_SIZE == f){
-        // printf("UnderFLow\n");
-        return 1;
-    }else{
-        return 0;
-    }
+    // if(f == -1 && r == -1 ){
+    //     // printf("UnderFLow\n");
+    //     return 1;
+    // }else if((r+1)%MAX_SIZE == f){
+    //     // printf("UnderFLow\n");
+    //     return 1;
+    // }else{
+    //     return 0;
+    // }
+    return (f == -1 && r == -1);
     
 }
 
 int isFull(){
-    if((r+1)%MAX_SIZE==f){
-        printf("OverFlow");
-        return 1;
-    }else{
-        return 0;
-    }
+    // if((r+1)%MAX_SIZE==f){
+    //     printf("OverFlow");
+    //     return 1;
+    // }else{
+    //     return 0;
+    // }
+    return ((r + 1) % MAX_SIZE == f);
     
 }
 
 void enqueue(int data){
-    if(isFull()==1){
+    if(isFull()){
+        printf("Queue Overflow!\n");
         return;
     }
     if(f==-1 && r==-1){
-        f++;
-        r++;
-        arr[r]=data;
+        f=0;
+        r=0;
     }else{
         r=(r+1)%MAX_SIZE;
-        arr[r]=data;
         
     }
+    arr[r]=data;
 }
 
 
@@ -49,34 +51,50 @@ void display(){
         return;
     }
     int i=f;
-    do{
+    while(i!=r){
         printf("%d\t",arr[i]);
         i=(i+1)%MAX_SIZE;
-    }while(i!=((r+1)%MAX_SIZE));
+    }
+    printf("%d\n", arr[r]);
 }
 
 int search(int key){
-    if(isEmpty()==1){
+    if(isEmpty()){
         printf("\nQueue is Empty\n");
         return 0;
     }
-    int i=f,count=0;
-    do{
-        count+=1;
-        if(key == arr[i]){
+    int i=f,count=1;
+    // do{
+    //     count+=1;
+    //     if(key == arr[i]){
+    //         return count;
+    //     }
+    //     i=(i+1)%MAX_SIZE;
+    // }while(i!=((r+1)%MAX_SIZE));
+
+    while (i != r) {
+        if (arr[i] == key) {
             return count;
         }
-        i=(i+1)%MAX_SIZE;
-    }while(i!=((r+1)%MAX_SIZE));
+        i = (i + 1) % MAX_SIZE;
+        count++;
+    }
+    if (arr[r] == key) { 
+        return count;
+    }
     return 0;
 }
 
 void dequeue(){
-    if(isEmpty()==1){
+    if(isEmpty()){
         printf("Queue is Empty\n");
         return;
     }
-    f=(f+1)%MAX_SIZE;
+    if (f == r) {  
+        f = r = -1;
+    } else {
+        f = (f + 1) % MAX_SIZE;
+    }
 }
 
 void main(){
@@ -111,6 +129,6 @@ void main(){
 
         }
 
-    }while(choice);
+    }while(choice!=0);
     
 }
