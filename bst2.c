@@ -78,17 +78,17 @@ struct node * insert(struct node *root, int key){
     return root;
 }
 
-struct node * delete(struct node *root,int key){
+struct node * deleteNode(struct node *root,int key){
     if (root == NULL){
         printf("\nKey not found\n");
         return root;
     }
     if(key<root->data){
-        root->left=delete(root->left,key);
+        root->left=deleteNode(root->left,key);
     }else if(key>root->data){
-        root->right=delete(root->right,key);
+        root->right=deleteNode(root->right,key);
     }else{
-        // Its the node to delete, it can have 1 child, 2 child , or no child
+        // Its the node to deleteNode, it can have 1 child, 2 child , or no child
         // case 1: no child
         if(root->left == NULL && root->right==NULL){
             free(root);
@@ -106,16 +106,16 @@ struct node * delete(struct node *root,int key){
         }else{
             // Both Childs
             // get smallest in right subtree(inorder succcessor)
-            struct node *successor=root;
+            struct node *successor=root->right;
 
             while(successor->left!=NULL){
                 successor=successor->left;
             }
             root->data=successor->data;
-            root->right=delete(root->right,successor->data);
-            struct node *temp;
+            root->right=deleteNode(root->right,successor->data);
         }
     }
+    return root;
 
 }
 
@@ -139,7 +139,7 @@ void main(){
     int choice,key,found;
     root=NULL;
     do{
-        printf("\n1. Insert node\n2.Delete node\n3.Search node\n4.Inorder tree\n5.Preorder tree\n6.Postorder tree\n0.Exit\nEnter your choice : ");
+        printf("\n1. Insert node\n2.delete node\n3.Search node\n4.Inorder tree\n5.Preorder tree\n6.Postorder tree\n0.Exit\nEnter your choice : ");
         scanf("%d",&choice);
         switch(choice){
             case 1: printf("\nEnter element to insert : ");
@@ -149,8 +149,9 @@ void main(){
                     inorder(root);
                     break;
             case 2: printf("\nEnter element to delete : ");
-                    scanf("%d",key);
-                    root=delete(root,key);
+                    scanf("%d",&key);
+                    root=deleteNode(root,key);
+                    break;
             case 3: printf("\nEnter element to search : ");
                     scanf("%d",&key);
                     found=search(root,key);
