@@ -119,37 +119,27 @@ struct node * delete(struct node *root,int key){
 
 }
 
-void search(struct node *root,int key){
+int search(struct node *root,int key){
     if(root==NULL){
-        printf("No element Found");
-        return;
+        return 0;
     }
     
     if(key<root->data){
-        search(root->left,key);
+        return search(root->left,key);
 
     }else if(key>root->data){
-        search(root->right,key);
+        return search(root->right,key);
     }else{
-        printf("\nElement %d found",key);
-        return;
+        return 1;
     }
-    return;
 }
 
 void main(){
     struct node *root;
     int choice,key,found;
     root=NULL;
-    // root=create();
-    // printf("\nIn-order Traversal : ");
-    // inorder(root);
-    // printf("\nPre-order Traversal : ");
-    // preorder(root);
-    // printf("\nPost-order Traversal : ");
-    // postorder(root);
     do{
-        printf("\n1. Insert node\n2.Delete node\n3.Search node\n\n0.Exit\nEnter your choice : ");
+        printf("\n1. Insert node\n2.Delete node\n3.Search node\n4.Inorder tree\n5.Preorder tree\n6.Postorder tree\n0.Exit\nEnter your choice : ");
         scanf("%d",&choice);
         switch(choice){
             case 1: printf("\nEnter element to insert : ");
@@ -164,7 +154,24 @@ void main(){
             case 3: printf("\nEnter element to search : ");
                     scanf("%d",&key);
                     found=search(root,key);
-
+                    if(found){
+                        printf("\nElement %d found\n",key);
+                    }else{
+                        printf("\nElement not found\n");
+                    }
+                    break;
+            case 4: printf("\nInorder Traversal : ");
+                    inorder(root);
+                    break;
+            case 5: printf("\nPreorder Traversal : ");
+                    preorder(root);
+                    break;
+            case 6: printf("\nPostorder Traversal : ");
+                    postorder(root);
+                    break;
+            case 0:printf("\nExiting........");
+                    break;
+            default:printf("\nInvalid input, try again...");
         }
     }while(choice!=0);
     
