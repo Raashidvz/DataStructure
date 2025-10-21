@@ -2,11 +2,11 @@
 #include <stdlib.h>
 #define MAX 20
 int size;
-int* createBitset(int universal[] ,int set[]){
+int* createBitset(int universal[] ,int set[],int size2){
     int* bitSet=(int*)malloc(size*sizeof(int));
     for(int i=0;i<size;i++){
         bitSet[i]=0;
-        for(int j=0;j<size;j++){
+        for(int j=0;j<size2;j++){
             if(universal[i]==set[j]){
                 bitSet[i]=1;
                 break;
@@ -72,7 +72,7 @@ void difference(int set1[],int set2[]){
 
 
 void main(){
-    int U,A,B,n,u,choice;
+    int U,A,B,n1,n2,choice;
     printf("\nEnter the size of Universal set : ");
     scanf("%d",&size);
     int universal[size];
@@ -84,51 +84,39 @@ void main(){
     }
 
     printf("\nEnter the size of A set : ");
-    scanf("%d",&n);
-    int setA[n];
-    printf("\nEnter %d elements for A : ",n);
-    for(int i=0;i<n;i++){
+    scanf("%d",&n1);
+    int setA[n1];
+    printf("\nEnter %d elements for A : ",n1);
+    for(int i=0;i<n1;i++){
         scanf("%d",&setA[i]);
     }
 
     printf("\nEnter the size of B set : ");
-    scanf("%d",&n);
-    int setB[n];
-    printf("\nEnter %d elements for B : ",n);
-    for(int i=0;i<n;i++){
+    scanf("%d",&n2);
+    int setB[n2];
+    printf("\nEnter %d elements for B : ",n2);
+    for(int i=0;i<n2;i++){
         scanf("%d",&setB[i]);
     }
 
     
-    int* bitsetB=createBitset(universal,setB);
-    int* bitsetA=createBitset(universal,setA);
+    int* bitsetB=createBitset(universal,setB,n2);
+    int* bitsetA=createBitset(universal,setA,n1);
 
     do{
         printf("\n1. A|B(Union)\n2. A&B(Intersect)\n3. A-B\n4. B-A\n5. Exit\n0. Enter your choice : ");
         scanf("%d",&choice);
         switch(choice){
-            case 1: printf("\nSETA: ");
-                    display(bitsetA);
-                    printf("\nSETB: ");
-                    display(bitsetB);
+            case 1: 
                     Union(bitsetA,bitsetB);
                     break;
-            case 2: printf("\nSETA: ");
-                    display(bitsetA);
-                    printf("\nSETB: ");
-                    display(bitsetB);
+            case 2: 
                     intersection(bitsetA,bitsetB);
                     break;
-            case 3: printf("\nSETA: ");
-                    display(bitsetA);
-                    printf("\nSETB: ");
-                    display(bitsetB);
+            case 3: 
                     difference(bitsetA,bitsetB);
                     break;
-            case 4: printf("\nSETA: ");
-                    display(bitsetA);
-                    printf("\nSETB: ");
-                    display(bitsetB);
+            case 4: 
                     intersection(bitsetB,bitsetA);
                     break;
             case 0: printf("\nExiting......!");
