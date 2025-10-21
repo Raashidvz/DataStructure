@@ -117,7 +117,7 @@ void main(){
                     difference(bitsetA,bitsetB);
                     break;
             case 4: 
-                    intersection(bitsetB,bitsetA);
+                    difference(bitsetB,bitsetA);
                     break;
             case 0: printf("\nExiting......!");
                     break;
