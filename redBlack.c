@@ -125,8 +125,17 @@ Node* insertRB(Node* root, int data) {
 void inorder(Node* root) {
     if (root == NULL) return;
     inorder(root->left);
-    printf("%d(%s) ", root->data, root->color == RED ? "R" : "B");
+    printf("%d%s ", root->data, root->color == RED ? "(R)" : "");
     inorder(root->right);
+}
+
+void preorder(Node* root){
+    if(root==NULL){
+        return;
+    }
+    printf("%d%s ",root->data,root->color == RED ? "(R)" : "");
+    preorder(root->left);
+    preorder(root->right);
 }
 
 // Search in Red-Black Tree
@@ -144,7 +153,7 @@ int main() {
     int choice, value;
 
     while (1) {
-        printf("\n1.Insert\n2.Inorder Traversal\n3.Search\n4.Exit\nEnter choice: ");
+        printf("\n1.Insert\n2.Inorder Traversal\n3.Preorder Traversal\n4.Search\n0.Exit\nEnter choice: ");
         scanf("%d", &choice);
         switch (choice) {
             case 1:
@@ -158,6 +167,11 @@ int main() {
                 printf("\n");
                 break;
             case 3:
+                printf("Preorder Traversal: ");
+                preorder(root);
+                printf("\n");
+                break;
+            case 4:
                 printf("Enter value to search: ");
                 scanf("%d", &value);
                 Node* found = search(root, value);
@@ -166,7 +180,8 @@ int main() {
                 else
                     printf("Not found\n");
                 break;
-            case 4:
+            case 0:
+                printf("\nExiting..........");
                 exit(0);
             default:
                 printf("Invalid choice\n");
