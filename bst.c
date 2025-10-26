@@ -1,38 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
-
 struct node{
     int data;
     struct node *left,*right;
 };
-
-struct node * createNewnode(int data){
-    struct node *newnode;
-    newnode=(struct node *)malloc(sizeof(struct node));
-    newnode->data=data;
-    newnode->left=NULL;
-    newnode->right=NULL;
-    return newnode;
-}
-
-// struct node * create(){
-//     int x;
-//     struct node *newnode;
-//     newnode=(struct node *)malloc(sizeof(struct node));
-//     printf("Enter data (-1 for no data) : ");
-//     scanf("%d",&x);
-//     if (x==-1){
-//         return NULL;
-//     }
-//     newnode->data=x;
-//     printf("\nEnter left child of %d : ",x);
-//     newnode->left=create();
-//     printf("\nEnter right child of %d : ",x);
-//     newnode->right=create();
-//     return newnode;
-// }
-
-
 
 void inorder(struct node *root){
     if(root==NULL){
@@ -52,7 +23,6 @@ void preorder(struct node *root){
     preorder(root->right);
 }
 
-
 void postorder(struct node *root){
     if(root==NULL){
         return;
@@ -62,61 +32,86 @@ void postorder(struct node *root){
     printf("%d\t",root->data);
 }
 
-
-
-struct node * insert(struct node *root, int key){
-    if(root == NULL){
-        return createNewnode(key);
+struct node* insert(struct node *root, int key){
+    if(root==NULL){
+        struct node *newnode;
+        newnode=(struct node*)malloc(sizeof(struct node));
+        newnode->data=key;
+        newnode->left=newnode->right=NULL;
+        return newnode;
     }
-    if(key < root->data){
+    if(key < root->data){ // left-subtree
         root->left=insert(root->left,key);
     }else if(key > root->data){
         root->right=insert(root->right,key);
     }else{
-        printf("\nBST not allow duplicate elements!\n");
+        printf("No duplication allowed in BST");
     }
     return root;
 }
 
-struct node * delete(struct note *prev, struct node *root,int key){
-    if(key==root->data and prev==NULL){
+struct node* deletenode(struct node *root, int key){
+    if(root==NULL){
+        printf("No such element found to delete");
         return NULL;
-    }else if(key==root->data){
-        // case1
-        if(root->left==NULL and root->right==NULL){
-            delete(root);
-            return NULL;
-        }else if(root->left==NULL){ // case 2
+    }
+    if(key < root->data){
+        root->left=deletenode(root->left,key);
+    }else if(key > root->data){
+        root->right=deletenode(root->right,key);
+    }else{
+        
+        if(root->left != NULL && root->right != NULL){
+            // case 1: if root have 2 childs
+            // find inorder successor
+            struct node *successor;
+            successor=root->right;
+            while(successor->left!=NULL){
+                successor=successor->left;
+            }
+            root->data=successor->data;
+            root->right=deletenode(root->right,successor->data);
+            return root;
             
-        }else if(root->right==NULL){ // case 3
-
-        }else{ // case 4
-
+            
+        }else if(root->left != NULL){
+            // case 2: if only left child
+            struct node *temp=root->left;
+            free(root);
+            return temp;
+        }else if(root->right != NULL){
+            // case 3: if only right child
+            struct node *temp=root->right;
+            free(root);
+            return temp;
+        }else{
+            // case 4: No child
+            free(root);
+            return NULL;
         }
     }
-    if(key<root->data){
-        root->left=delete(root,root->left,key);
-    }
-    if(key>root->data){
-        root->right=delete(root->right,key);
-    }
+    
+    return root;
 }
 
-
+struct node* search(struct node *root, int key){
+    if(root==NULL || root->data == key){
+        return root;
+    }
+    if(key<root->data){
+        return search(root->left,key);
+    }else{ // (key>root->data)
+        return search(root->right,key);
+    }
+    return NULL;
+}
 
 void main(){
     struct node *root;
-    int choice,key;
+    int choice,key,found;
     root=NULL;
-    // root=create();
-    // printf("\nIn-order Traversal : ");
-    // inorder(root);
-    // printf("\nPre-order Traversal : ");
-    // preorder(root);
-    // printf("\nPost-order Traversal : ");
-    // postorder(root);
     do{
-        printf("\n1. Insert node\n2.Delete node\nSearch node\n0.Exit\nEnter your choice : ");
+        printf("\n1. Insert node\n2.delete node\n3.Search node\n4.Inorder tree\n5.Preorder tree\n6.Postorder tree\n0.Exit\nEnter your choice : ");
         scanf("%d",&choice);
         switch(choice){
             case 1: printf("\nEnter element to insert : ");
@@ -126,9 +121,36 @@ void main(){
                     inorder(root);
                     break;
             case 2: printf("\nEnter element to delete : ");
-                    scanf("%d",key);
-                    root=delete(NULL,root,key);
-
+                    scanf("%d",&key);
+                    root=deletenode(root,key);
+                    break;
+            case 3: {
+                        printf("\nEnter element to search : ");
+                        scanf("%d",&key);
+                        struct node* found=NULL;
+                        found=search(root,key);
+                        if(found != NULL){
+                            printf("\nElement %d found\n",key);
+                        }else{
+                            printf("\nElement not found\n");
+                        }
+                        break;
+                    }
+            case 4: printf("\nInorder Traversal : ");
+                    inorder(root);
+                    printf("\n");
+                    break;
+            case 5: printf("\nPreorder Traversal : ");
+                    preorder(root);
+                    printf("\n");
+                    break;
+            case 6: printf("\nPostorder Traversal : ");
+                    postorder(root);
+                    printf("\n");
+                    break;
+            case 0:printf("\nExiting........");
+                    break;
+            default:printf("\nInvalid input, try again...");
         }
     }while(choice!=0);
     
