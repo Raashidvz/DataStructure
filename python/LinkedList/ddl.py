@@ -40,12 +40,12 @@ def palindrome(head,tail):
 	t=tail
 	s1=""
 	while(h!=None):
-		s1+=h.data
+		s1+=str(h.data)
 		h=h.next
 	
 	s2=""
 	while(t!=None):
-		s2+=t.data
+		s2+=str(t.data)
 		t=t.prev
 	
 	if(s1==s2):
@@ -60,8 +60,8 @@ def palindrome(head,tail):
 l1=createNode(1)
 l2=createNode(2)
 l3=createNode(3)
-l4=createNode(4)
-l5=createNode(5)
+l4=createNode(2)
+l5=createNode(1)
 
 
 head,tail=insert(head,l1)
@@ -72,10 +72,4 @@ head,tail=insert(head,l5)
 
 display(head)
 palindrome(head,tail)
-
-#l1=Node.Node(1)
-#l1=Node.Node(2)
-#l1=Node.Node(3)
-#l1=Node.Node(2)
-#l1=Node.Node(1)
 
