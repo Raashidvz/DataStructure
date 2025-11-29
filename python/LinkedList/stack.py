@@ -16,10 +16,10 @@ class Stack:
             print("Stack Empty")
             return None
         else:
-            self.top=self.top.next
+            self.top=n.next
             value=n.data
             del n
-            print(f"Stack Top -> {self.top.data}")
+            print(f"Stack Top -> {self.top.data if self.top!=None else "None"}")
             return value
         
     def display(self):
@@ -39,6 +39,9 @@ stack.push(40)
 stack.push(50)
 
 print("\nPOP from stack")
+stack.pop()
+stack.pop()
+stack.pop()
 stack.pop()
 stack.pop()
 
